@@ -1,0 +1,4 @@
+[console_scripts]
+rc_control = rover_control.rc_cmd_publisher:main
+rc_subscribe = rover_control.rc_cmd_subscriber:main
+
