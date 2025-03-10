@@ -1,15 +1,15 @@
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
 import serial
 import time
+from rc_msgs.msg import RcMsg
 
 class MinimalSubscriber(Node):
     def __init__(self):
         super().__init__('minimal_subscriber')
         self.subscription = self.create_subscription(
-            Twist,
-            'cmd_vel',
+            RcMsg,
+            'rover_commands',
             self.listener_callback,
             1)
         self.subscription  # prevent unused variable warning
@@ -20,12 +20,16 @@ class MinimalSubscriber(Node):
         print("Connection Successful")
 
     def listener_callback(self, msg):
-        throttle = int(round(msg.linear.x))
-        steer = int(round(msg.linear.y))
+        arm = int(msg.arm)
+        reverse = int(msg.reverse)
+        throttle = msg.throttle
+        steer = msg.steer
+        op_mode  = msg.op_mode
 
         # Format with explicit start '<' and end '>'
-        serial_data = f"<{throttle},{steer}>"
-
+        serial_data = f"<{arm},{reverse},{throttle},{steer},{op_mode}>"
+        print(serial_data)
+        
         self.arduino.reset_input_buffer()  # Clear any residual data
         self.arduino.write(serial_data.encode())  # Send data
 

@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "rc_msgs__py",
+		"source" : "/home/abhishek/mars_rover/rover_ws/build/rc_msgs/rc_msgs__py"
+	}
+}

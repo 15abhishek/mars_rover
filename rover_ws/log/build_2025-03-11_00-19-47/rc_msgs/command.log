@@ -1,0 +1,4 @@
+Invoking command in '/home/abhishek/mars_rover/rover_ws/build/rc_msgs': /usr/bin/cmake --build /home/abhishek/mars_rover/rover_ws/build/rc_msgs -- -j8 -l8
+Invoked command in '/home/abhishek/mars_rover/rover_ws/build/rc_msgs' returned '0': /usr/bin/cmake --build /home/abhishek/mars_rover/rover_ws/build/rc_msgs -- -j8 -l8
+Invoking command in '/home/abhishek/mars_rover/rover_ws/build/rc_msgs': /usr/bin/cmake --install /home/abhishek/mars_rover/rover_ws/build/rc_msgs
+Invoked command in '/home/abhishek/mars_rover/rover_ws/build/rc_msgs' returned '0': /usr/bin/cmake --install /home/abhishek/mars_rover/rover_ws/build/rc_msgs

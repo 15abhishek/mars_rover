@@ -1,0 +1,6 @@
+{
+  "package_name": "rc_msgs",
+  "non_idl_tuples": [
+    "/home/abhishek/mars_rover/rover_ws/src/rc_msgs:msg/RcMsg.msg"
+  ]
+}
