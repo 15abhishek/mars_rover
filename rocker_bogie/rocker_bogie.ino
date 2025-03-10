@@ -65,7 +65,7 @@ void processData(String data) {
         motor2.setSpeed(pwmSpeed);
 
         // Scale steer to servo range (20-160 degrees)
-        int servoAngle = map(steer, 100, 999, 20, 160);
+        int servoAngle = map(steer, 100, 999, 160, 20);
         servo1.setAngle(servoAngle);
         servo2.setAngle(servoAngle);
         servo3.setAngle(servoAngle);
