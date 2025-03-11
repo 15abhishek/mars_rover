@@ -10,7 +10,7 @@ private:
 
 public:
     Motor(int pwm, int dir);
-    void setSpeed(int speed);
+    void setSpeed(int speed, int reverse);
     void setFwSpeed(int speed);
     void setBwSpeed(int speed);
     void stop();

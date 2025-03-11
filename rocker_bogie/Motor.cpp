@@ -7,14 +7,14 @@ Motor::Motor(int pwm, int dir) {
     pinMode(dirPin, OUTPUT);
 }
 
-void Motor::setSpeed(int speed) {
-    speed = constrain(speed, -50, 50); 
-    if (speed > 0) {
+void Motor::setSpeed(int speed, int reverse) {
+    speed = constrain(speed, 0, 50); 
+    if (reverse==0) {
         digitalWrite(dirPin, LOW);
         analogWrite(pwmPin, speed);
-    } else if (speed < 0) {
+    } else if (reverse==1) {
         digitalWrite(dirPin, HIGH);
-        analogWrite(pwmPin, -speed);
+        analogWrite(pwmPin, speed);
     } else {
         digitalWrite(dirPin, LOW);
         analogWrite(pwmPin, 0);

@@ -1,6 +1,6 @@
 #include "Motor.h"
 #include "ServoMotor.h"
-#include "CytronMotorDriver.h"
+#include "ModeSelect.h"
 
 Motor motor1(3, 4);  // Left
 Motor motor2(9, 10); // Right
@@ -11,6 +11,8 @@ ServoMotor servo3(7);  // RL
 ServoMotor servo4(8);  // FR
 ServoMotor servo5(11); // MR
 ServoMotor servo6(13); // RR
+
+ModeSelect mode();
 
 String receivedData = "";  // Store incoming serial data
 bool messageStarted = false;  // Track if we are inside a valid message
@@ -56,33 +58,52 @@ void loop() {
 void processData(String data) {
     data.trim();  // Remove extra spaces
 //    Serial.println(data);
-    int throttle, steer;
+    int arm, reverse, throttle, steer, op_mode;
+    int m1,m2,s1,s2,s3,s4,s5,s6;
 
-    if (sscanf(data.c_str(), "%d,%d", &throttle, &steer) == 2) {
+    if (sscanf(data.c_str(), "%d,%d,%d,%d,%d", &arm, &reverse, &throttle, &steer, &op_mode) == 5) {
+
+        // Arming the bot
+        if (arm!= 1){
+            int disarm_flag == 1;
+            while (disarm_flag == 1){
+                /* do nothing */
+                if (arm == 1){
+                    disarm_flag == 0;
+                }}}
+        else{
+            m1,m2,s1,s2,s3,s4,s5,s6= mode.selectMode();
+        }
+
         // Scale throttle to motor speed range (0-255)
         int pwmSpeed = map(throttle, 100, 999, 0, 100);
-        motor1.setSpeed(pwmSpeed);
-        motor2.setSpeed(pwmSpeed);
+        motor1.setSpeed(pwmSpeed, reverse);
+        motor2.setSpeed(pwmSpeed, reverse);
 
         // Scale steer to servo range (20-160 degrees)
         int servoAngle = map(steer, 100, 999, 160, 20);
-        servo1.setAngle(servoAngle);
-        servo2.setAngle(servoAngle);
-        servo3.setAngle(servoAngle);
-        servo4.setAngle(servoAngle);
-        servo5.setAngle(servoAngle);
-        servo6.setAngle(servoAngle);
-
-        Serial.print("Parsed: Throttle=");
+        
+        Serial.print("Parsed: Arm= ");
+        Serial.print(arm);
+        Serial.print(" | Reverse= ");
+        Serial.print(reverse);
+        Serial.print(" | PWM= ");
         Serial.print(throttle);
-        Serial.print(", Steer=");
+        Serial.print(" | Servo= ");
         Serial.print(steer);
-        Serial.print("  ||  PWM= ");
-        Serial.print(pwmSpeed);
-        Serial.print(", Servo= ");
-        Serial.println(servoAngle);
+        Serial.print(" | mode= ");
+        Serial.println(op_mode);
         
     } else {
         Serial.println("Error: Invalid data format!");
     }
+}
+
+void setServo(int s1, int s2, int s3, int s4, int s5, int s6){
+    servo1.setAngle(s1);
+    servo2.setAngle(s2);
+    servo3.setAngle(s3);
+    servo4.setAngle(s4);
+    servo5.setAngle(s5);
+    servo6.setAngle(s6);
 }
