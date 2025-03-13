@@ -12,7 +12,7 @@ ServoMotor servo4(8);  // FR
 ServoMotor servo5(11); // MR
 ServoMotor servo6(13); // RR
 
-ModeSelect mode();
+ModeSelect mode;
 
 String receivedData = "";  // Store incoming serial data
 bool messageStarted = false;  // Track if we are inside a valid message
