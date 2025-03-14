@@ -14,10 +14,21 @@ private:
     float track_width;
     float diagonal_length;
     float wheel_base;
+    
 public:
+    struct Angle_n_Speed {
+        int m1;
+        int m2;
+        int s1;
+        int s2;
+        int s3;
+        int s4;
+        int s5;
+        int s6;
+    };
     ModeSelect();
-    int selectMode(int reverse, int throttle, int steer, int op_mode);
-    int ackermannKinematics(int reverse, int throttle, int steer);
-    int zeroRadiusKinematics(int reverse, int throttle, int steer);
-    int swerveKinematics(int reverse, int throttle, int steer);
+    Angle_n_Speed selectMode(int reverse, int throttle, int steer, int op_mode);
+    Angle_n_Speed ackermannKinematics(int reverse, int throttle, int steer);
+    Angle_n_Speed zeroRadiusKinematics(int reverse, int speed);
+    Angle_n_Speed swerveKinematics(int reverse, int throttle, int steer);
 };

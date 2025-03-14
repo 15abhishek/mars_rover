@@ -10,42 +10,46 @@ ModeSelect::ModeSelect() {
     float wheel_base = 370; //mm change this
 }
 
-int ModeSelect::selectMode(int reverse, int speed, int steer, int mode){
+ModeSelect::Angle_n_Speed ModeSelect::selectMode(int reverse, int speed, int steer, int mode){
+    Angle_n_Speed cmd;
     switch (mode)
     {
     case ACKERMANN_DRIVE:
-    m1,m2,s1,s2,s3,s4,s5,s6= ModeSelect::ackermannKinematics(reverse, speed, steer);
+    cmd= ModeSelect::ackermannKinematics(reverse, speed, steer);
         break;
     case ZERO_RADIUS:
-    m1,m2,s1,s2,s3,s4,s5,s6= ModeSelect::zeroRadiusKinematics(reverse, speed, steer);
+    cmd= ModeSelect::zeroRadiusKinematics(reverse, speed);
         break;
     case SWERVE_DRIVE:
-    m1,m2,s1,s2,s3,s4,s5,s6= ModeSelect::swerveKinematics(reverse, speed, steer);
+    cmd= ModeSelect::swerveKinematics(reverse, speed, steer);
         break;
     default:
-    m1,m2,s1,s2,s3,s4,s5,s6= ModeSelect::ackermannKinematics(reverse, speed, steer);
+    cmd= ModeSelect::ackermannKinematics(reverse, speed, steer);
         break;
     }
-    return  m1,m2,s1,s2,s3,s4,s5,s6;
+    return  cmd;
 }
 
-int ModeSelect::ackermannKinematics(int reverse, int speed, int steer){
+ModeSelect::Angle_n_Speed ModeSelect::ackermannKinematics(int reverse, int speed, int steer){
+    Angle_n_Speed cmd;
     //////////////// Kinematics ////////////////
     
     ////////////////////////////////////////////
-    return  m1,m2,s1,s2,s3,s4,s5,s6;
+    return  cmd;
 }
 
-int ModeSelect::zeroRadiusKinematics(int reverse, int speed){
+ModeSelect::Angle_n_Speed ModeSelect::zeroRadiusKinematics(int reverse, int speed){
+    Angle_n_Speed cmd;
     //////////////// Kinematics ////////////////
     s2, s4 = 90;
     s1, s6 = asin(track_width/diagonal_length);
     s3, s5 = 90 - s1;
     ////////////////////////////////////////////
-    return  m1,m2,s1,s2,s3,s4,s5,s6;
+    return cmd;
 }
 
-int ModeSelect::swerveKinematics(int reverse, int speed, int steer){
+ModeSelect::Angle_n_Speed ModeSelect::swerveKinematics(int reverse, int speed, int steer){
+    Angle_n_Speed cmd;
     int m1,m2,s1,s2,s3,s4,s5,s6;
     //////////////// Kinematics ////////////////
     m1,m2 = speed;
@@ -56,5 +60,5 @@ int ModeSelect::swerveKinematics(int reverse, int speed, int steer){
     s5 = steer;
     s6 = steer;
     ////////////////////////////////////////////
-    return  m1,m2,s1,s2,s3,s4,s5,s6;
+    return  cmd;
 }

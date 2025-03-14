@@ -59,21 +59,22 @@ void processData(String data) {
     data.trim();  // Remove extra spaces
 //    Serial.println(data);
     int arm, reverse, throttle, steer, op_mode;
+    ModeSelect::Angle_n_Speed cmd;
     int m1,m2,s1,s2,s3,s4,s5,s6;
 
     if (sscanf(data.c_str(), "%d,%d,%d,%d,%d", &arm, &reverse, &throttle, &steer, &op_mode) == 5) {
 
         // Arming the bot
         if (arm!= 1){
-            int disarm_flag == 1;
+            int disarm_flag = 1;
             while (disarm_flag == 1){
                 /* do nothing */
                 if (arm == 1){
                     disarm_flag == 0;
                 }}}
-        else{
-            m1,m2,s1,s2,s3,s4,s5,s6= mode.selectMode();
-        }
+//        else{
+////            cmd= mode.selectMode(); // arguments kon dalega lawde ?
+//        }
 
         // Scale throttle to motor speed range (0-255)
         int pwmSpeed = map(throttle, 100, 999, 0, 100);
