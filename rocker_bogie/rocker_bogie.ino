@@ -59,41 +59,70 @@ void processData(String data) {
     data.trim();  // Remove extra spaces
 //    Serial.println(data);
     int arm, reverse, throttle, steer, op_mode;
+    
     ModeSelect::Angle_n_Speed cmd;
-    int m1,m2,s1,s2,s3,s4,s5,s6;
+    
+//    int m1,m2,s1,s2,s3,s4,s5,s6;
 
     if (sscanf(data.c_str(), "%d,%d,%d,%d,%d", &arm, &reverse, &throttle, &steer, &op_mode) == 5) {
 
         // Arming the bot
-        if (arm!= 1){
+        if (0){
             int disarm_flag = 1;
             while (disarm_flag == 1){
+              Serial.println("Arm Switch Off");
                 /* do nothing */
                 if (arm == 1){
                     disarm_flag == 0;
+                    Serial.println("ARMED!!!!!!");
                 }}}
-//        else{
-////            cmd= mode.selectMode(); // arguments kon dalega lawde ?
-//        }
+        else{
+            // Scale throttle to motor speed range (0-255)
+            throttle = map(throttle, 100, 999, 0, 255);
+            
+            // Scale steer to servo range (20-160 degrees)
+            steer = map(steer, 100, 999, 160, 20);
+            
+            cmd = mode.selectMode(reverse, throttle, steer, op_mode); // arguments added
+            Serial.print("Parsed: M1= ");
+            Serial.print(cmd.m1);
+            Serial.print(" | M2= ");
+            Serial.print(cmd.m2);
+            Serial.print(" | S1= ");
+            Serial.print(cmd.s1); 
+            Serial.print(" | S2= ");
+            Serial.print(cmd.s2);
+            Serial.print(" | S3= ");
+            Serial.print(cmd.s3);
+            Serial.print(" | S4= ");
+            Serial.print(cmd.s4);
+            Serial.print(" | S5= ");
+            Serial.print(cmd.s5);
+            Serial.print(" | S6= ");
+            Serial.print(cmd.s6);
+            Serial.print(" | M1_REV= ");
+            Serial.print(cmd.m1_rev);
+            Serial.print(" | M2_REV= ");
+            Serial.println(cmd.m2_rev);
 
-        // Scale throttle to motor speed range (0-255)
-        int pwmSpeed = map(throttle, 100, 999, 0, 100);
-        motor1.setSpeed(pwmSpeed, reverse);
-        motor2.setSpeed(pwmSpeed, reverse);
+            // Set Motor Speeds
+            motor1.setSpeed(cmd.m1, cmd.m1_rev);
+            motor2.setSpeed(cmd.m2, cmd.m2_rev);
+    
+            // Set Servo Angles
+            setServo(cmd.s1, cmd.s2, cmd.s3, cmd.s4, cmd.s5, cmd.s6);
+              }
 
-        // Scale steer to servo range (20-160 degrees)
-        int servoAngle = map(steer, 100, 999, 160, 20);
-        
-        Serial.print("Parsed: Arm= ");
-        Serial.print(arm);
-        Serial.print(" | Reverse= ");
-        Serial.print(reverse);
-        Serial.print(" | PWM= ");
-        Serial.print(throttle);
-        Serial.print(" | Servo= ");
-        Serial.print(steer);
-        Serial.print(" | mode= ");
-        Serial.println(op_mode);
+//        Serial.print("Parsed: Arm= ");
+//        Serial.print(arm);
+//        Serial.print(" | Reverse= ");
+//        Serial.print(reverse);
+//        Serial.print(" | PWM= ");
+//        Serial.print(throttle);
+//        Serial.print(" | Servo= ");
+//        Serial.print(steer);
+//        Serial.print(" | mode= ");
+//        Serial.println(op_mode);
         
     } else {
         Serial.println("Error: Invalid data format!");

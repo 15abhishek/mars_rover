@@ -8,16 +8,13 @@ Motor::Motor(int pwm, int dir) {
 }
 
 void Motor::setSpeed(int speed, int reverse) {
-    speed = constrain(speed, 0, 50); 
+    speed = constrain(speed, 0, 100); 
     if (reverse==0) {
         digitalWrite(dirPin, LOW);
         analogWrite(pwmPin, speed);
-    } else if (reverse==1) {
+    } else {
         digitalWrite(dirPin, HIGH);
         analogWrite(pwmPin, speed);
-    } else {
-        digitalWrite(dirPin, LOW);
-        analogWrite(pwmPin, 0);
     }
 }
 
