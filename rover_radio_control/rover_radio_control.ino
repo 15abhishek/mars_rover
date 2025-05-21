@@ -45,9 +45,8 @@ void loop()
 {
     // Must call crsf.update() in loop() to process data
     crsf.update();
-    printChannels();
-
-
+//    printChannels();
+    processData();
 }
 
 void crsf_setup(){
@@ -68,31 +67,35 @@ void printChannels(){
     Serial.println(" ");
 }
 
-void processData(String data) {
-  int arm = 1; //crsf.getChannel(1);
-  int reverse = crsf.getChannel(5);
-  int throttle = crsf.getChannel(0);
-  int steer = crsf.getChannel(1);
-  int op_mode = crsf.getChannel(1);
+void processData() {
+  int arm = map(crsf.getChannel(5), 1000, 2000, 0, 1);        //Set
+  int reverse = map(crsf.getChannel(6), 989, 2011, 0, 1);     //Set
+  int throttle = map(crsf.getChannel(1), 989, 2011, 0, 255);  //Set
+  int steer = map(crsf.getChannel(2), 989, 2011, 160, 20);    //Set
+  int op_mode = map(crsf.getChannel(7), 1000, 2000, 0, 2);    //Set 
+
+//  Serial.print(arm);
+//  Serial.print(" | ");
+//  Serial.print(reverse);
+//  Serial.print(" | ");
+//  Serial.print(throttle);
+//  Serial.print(" | ");
+//  Serial.print(steer);
+//  Serial.print(" | ");
+//  Serial.println(op_mode);
     
   ModeSelect::Angle_n_Speed cmd;
     
         // Arming the bot
-        if (0){
-            int disarm_flag = 1;
-            while (disarm_flag == 1){
-              Serial.println("Arm Switch Off");
-                /* do nothing */
-                if (arm == 1){
-                    disarm_flag == 0;
-                    Serial.println("ARMED!!!!!!");
-                }}}
+        if (arm == 0){
+          Serial.println("ARM Switch OFF");
+            }
         else{
             // Scale throttle to motor speed range (0-255)
-            throttle = map(throttle, 100, 999, 0, 255);
+//            throttle = map(throttle, 989, 2011, 0, 255);
             
             // Scale steer to servo range (20-160 degrees)
-            steer = map(steer, 100, 999, 160, 20);
+//            steer = map(steer, 989, 2011, 160, 20);
             
             cmd = mode.selectMode(reverse, throttle, steer, op_mode); // arguments added
             Serial.print("Parsed: M1= ");
@@ -121,7 +124,7 @@ void processData(String data) {
             motor2.setSpeed(cmd.m2, cmd.m2_rev);
     
             // Set Servo Angles
-            // setServo(cmd.s1, cmd.s2, cmd.s3, cmd.s4, cmd.s5, cmd.s6);
+            setServo(cmd.s1, cmd.s2, cmd.s3, cmd.s4, cmd.s5, cmd.s6);
             }}
 
 void resetServos() {
@@ -131,4 +134,13 @@ void resetServos() {
     servo4.setAngle(90);
     servo5.setAngle(90);
     servo6.setAngle(90);
+}
+
+void setServo(int s1, int s2, int s3, int s4, int s5, int s6){
+    servo1.setAngle(s1);
+    servo2.setAngle(s2);
+    servo3.setAngle(s3);
+    servo4.setAngle(s4);
+    servo5.setAngle(s5);
+    servo6.setAngle(s6);
 }
